@@ -41,7 +41,9 @@ function Darksky(darksky, theData){
   this.time= theData.datetime;
 }
 server.use('*',( input2,output2)=>{ //incase of wrong input
-  const errorNum = '500';
-  const errorName = 'Sorry, something went wrong';
-  output2.status.send(errorNum).send(errorName);
+  let arr2 =['500', 'Sorry, something went wrong'];
+  //   const errorNum = '500';
+  //   const errorName = 'Sorry, something went wrong';
+  output2.status(arr2[0]).send(arr2);
 });
+
