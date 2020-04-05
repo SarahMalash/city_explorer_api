@@ -27,6 +27,7 @@ function Location(location, data){//constructor
 let arr1=[];//empty array
 
 server.get('/darksky', (input2,output2)=>{
+  arr1.pop();
   const theDarksky=input2.query.darksky;
   const darkskyData=require('./data/darksky.json');
   darkskyData.data.forEach(element => { //for each object get time and forcsat from data array,
