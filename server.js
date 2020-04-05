@@ -8,15 +8,15 @@ server.use(cors());
 server.listen(PORT, ()=>{
   console.log('listening from port ', PORT);// read server data when accssed from port 3000
 });
-// server.get('/', (req, res)=> {
-//   res.status(200).send('finally!');
+// server.get('/', (input1,output1)=> {
+//   output1.status(200).send('finally!');
 // });
 //location
-server.get('/location', (req,res)=>{ //user must enter "location"
-  const theLocation=req.query.location; //passed the search query
+server.get('/location', (input1,output1)=>{ //user must enter "location"
+  const theLocation=input1.query.location; //passed the search query
   const geoData=require('./data/geo.json'); // accsess file data and get data from geo.jason.
   const locationInfo= new Location(theLocation, geoData);//objec instance
-  res.send(locationInfo);//when user requests /location the reult will be the object locationInfo which contains formatted_query, latitude and longitude
+  output1.send(locationInfo);//when user requests /location the reult will be the object locationInfo which contains formatted_query, latitude and longitude
 });
 function Location(location, data){//constructor
   this.search_query= location;
@@ -24,23 +24,23 @@ function Location(location, data){//constructor
   this.latitude= data[0].lat; //same
   this.longitude= data[0].lon ; //same
 }
-let arr1=[];
+let arr1=[];//empty array
 
-server.get('/darksky', (req,res)=>{
-  const theDarksky=req.query.darksky;
+server.get('/darksky', (input2,output2)=>{
+  const theDarksky=input2.query.darksky;
   const darkskyData=require('./data/darksky.json');
   darkskyData.data.forEach(element => { //for each object get time and forcsat from data array,
     const darkskyInfo= new Darksky(theDarksky, element);
-    arr1.push(darkskyInfo);
+    arr1.push(darkskyInfo);//push each object created into arr1
   });
-  res.send(arr1);
+  output2.send(arr1);//sende arr1 which is array of object as an output
 });
 function Darksky(darksky, theData){
   this.search_query= darksky;
   this.forecast= theData.weather.description;//weather is an object
   this.time= theData.datetime;
 }
-server.use('*',( req,res)=>{
+server.use('*',( input2,output2)=>{
   let obj={'error': [{'status': 500, 'responseText': 'Sorry, something went wrong'}]};
-  res.status(obj.error[0].status).send(obj.error);
+  output2.status(obj.error[0].status).send(obj.error);
 });
