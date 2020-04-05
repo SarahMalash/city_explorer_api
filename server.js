@@ -40,8 +40,9 @@ function Darksky(darksky, theData){
   this.forecast= theData.weather.description;//weather is an object
   this.time= theData.datetime;
 }
-server.use('*',( input2,output2)=>{ //incase of wrong input
+server.use('*',( input2,output2,output)=>{ //incase of wrong input
   const errorNum = '500';
   const errorName = 'Sorry, something went wrong';
-  output2.send(errorName,errorNum);
+  output2.send(errorNum);
+  output.send(errorName);
 });
